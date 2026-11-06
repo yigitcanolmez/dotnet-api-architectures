@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Onion.Api/Onion.Api.csproj" />
+    <Project Path="src/Onion.Application/Onion.Application.csproj" />
+    <Project Path="src/Onion.Domain/Onion.Domain.csproj" />
+    <Project Path="src/Onion.Infrastructure/Onion.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Onion.Application.Tests/Onion.Application.Tests.csproj" />
+    <Project Path="tests/Onion.ArchitectureTests/Onion.ArchitectureTests.csproj" />
+    <Project Path="tests/Onion.Domain.Tests/Onion.Domain.Tests.csproj" />
+  </Folder>
+</Solution>

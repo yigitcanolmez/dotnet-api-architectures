@@ -1,0 +1,32 @@
+@client = http://localhost:5300
+@productId = 11111111-1111-1111-1111-111111111111
+
+### Politika yok
+GET {{client}}/naive/{{productId}}
+
+### Retry (exponential + jitter, 3 tekrar)
+GET {{client}}/retry/{{productId}}
+
+### Attempt timeout (1 sn)
+GET {{client}}/timeout/{{productId}}
+
+### Circuit breaker (yanıtta circuitState)
+GET {{client}}/circuit-breaker/{{productId}}
+
+### Circuit breaker durumu
+GET {{client}}/circuit-breaker/state
+
+### AddStandardResilienceHandler (override edilmiş ayarlar)
+GET {{client}}/standard/{{productId}}
+
+### Fallback (source: live | fallback)
+GET {{client}}/fallback/{{productId}}
+
+### Bulkhead (2 eşzamanlı + 1 kuyruk)
+GET {{client}}/bulkhead/{{productId}}
+
+### Hedging (300 ms sonra paralel deneme)
+GET {{client}}/hedging/{{productId}}
+
+### Gelen istek rate limiting (token bucket 5 / 10 sn) — 6. istekte 429
+GET {{client}}/rate-limited

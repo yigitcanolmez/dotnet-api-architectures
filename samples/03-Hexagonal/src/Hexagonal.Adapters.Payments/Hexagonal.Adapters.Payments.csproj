@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- [Driven (Secondary) Adapter] IPaymentGateway → sahte ödeme sağlayıcısı. -->
+  <ItemGroup>
+    <ProjectReference Include="..\Hexagonal.Core\Hexagonal.Core.csproj" />
+  </ItemGroup>
+
+</Project>

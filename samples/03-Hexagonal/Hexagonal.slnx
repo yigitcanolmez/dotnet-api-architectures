@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Hexagonal.Adapters.Messaging/Hexagonal.Adapters.Messaging.csproj" />
+    <Project Path="src/Hexagonal.Adapters.Notifications/Hexagonal.Adapters.Notifications.csproj" />
+    <Project Path="src/Hexagonal.Adapters.Payments/Hexagonal.Adapters.Payments.csproj" />
+    <Project Path="src/Hexagonal.Adapters.Persistence/Hexagonal.Adapters.Persistence.csproj" />
+    <Project Path="src/Hexagonal.Adapters.Web/Hexagonal.Adapters.Web.csproj" />
+    <Project Path="src/Hexagonal.Core/Hexagonal.Core.csproj" />
+    <Project Path="src/Hexagonal.Host/Hexagonal.Host.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Hexagonal.Core.Tests/Hexagonal.Core.Tests.csproj" />
+  </Folder>
+</Solution>

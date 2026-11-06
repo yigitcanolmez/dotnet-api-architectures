@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Clean.Api/Clean.Api.csproj" />
+    <Project Path="src/Clean.Application/Clean.Application.csproj" />
+    <Project Path="src/Clean.Domain/Clean.Domain.csproj" />
+    <Project Path="src/Clean.Infrastructure/Clean.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Clean.Api.IntegrationTests/Clean.Api.IntegrationTests.csproj" />
+    <Project Path="tests/Clean.Application.UnitTests/Clean.Application.UnitTests.csproj" />
+    <Project Path="tests/Clean.ArchitectureTests/Clean.ArchitectureTests.csproj" />
+    <Project Path="tests/Clean.Domain.UnitTests/Clean.Domain.UnitTests.csproj" />
+  </Folder>
+</Solution>

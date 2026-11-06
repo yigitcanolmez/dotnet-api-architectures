@@ -1,0 +1,56 @@
+@host = http://localhost:5007
+
+### Hesap aç → 201 { id }  (AccountOpened)
+# @name open
+POST {{host}}/accounts
+Content-Type: application/json
+
+{ "owner": "Ali" }
+
+### Para yatır (MoneyDeposited)
+POST {{host}}/accounts/{{open.response.body.$.id}}/deposit
+Content-Type: application/json
+
+{ "amount": 200 }
+
+### Para çek (MoneyWithdrawn)
+POST {{host}}/accounts/{{open.response.body.$.id}}/withdraw
+Content-Type: application/json
+
+{ "amount": 100 }
+
+### Yetersiz bakiye → 409
+POST {{host}}/accounts/{{open.response.body.$.id}}/withdraw
+Content-Type: application/json
+
+{ "amount": 100000 }
+
+### Optimistic concurrency: eski versiyonla yazma → 409 Concurrency
+POST {{host}}/accounts/{{open.response.body.$.id}}/deposit
+Content-Type: application/json
+
+{ "amount": 5, "expectedVersion": 1 }
+
+### Güncel durum (event'lerden rehydrate; 5+ event varsa snapshot'tan)
+GET {{host}}/accounts/{{open.response.body.$.id}}
+
+### Ham event akışı (audit) — timestamp'leri buradan alın
+GET {{host}}/accounts/{{open.response.body.$.id}}/events
+
+### Temporal query: verilen andaki bakiye (timestamp'i /events çıktısından kopyalayın)
+GET {{host}}/accounts/{{open.response.body.$.id}}/balance-at?timestamp=2026-01-01T00:00:00Z
+
+### Projeksiyondan hesap listesi (AccountBalances)
+GET {{host}}/accounts
+
+### Projeksiyonu sil ve tüm event'leri baştan oynat
+POST {{host}}/admin/projections/rebuild
+
+### Hesabı kapat (AccountClosed) → 204
+POST {{host}}/accounts/{{open.response.body.$.id}}/close
+
+### Kapalı hesaba işlem → 409
+POST {{host}}/accounts/{{open.response.body.$.id}}/deposit
+Content-Type: application/json
+
+{ "amount": 10 }

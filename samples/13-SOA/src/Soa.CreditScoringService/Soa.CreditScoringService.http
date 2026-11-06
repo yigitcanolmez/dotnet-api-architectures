@@ -1,0 +1,54 @@
+@svc = http://localhost:5400
+
+### WSDL (sözleşme) — keşfedilebilirlik
+GET {{svc}}/CreditScoringService.svc?wsdl
+
+### WSDL'in import ettiği XSD şeması (veri sözleşmeleri)
+GET {{svc}}/CreditScoringService.svc?xsd=xsd0
+
+### Customer servisinin WSDL'i
+GET {{svc}}/CustomerService.svc?wsdl
+
+### Ham SOAP 1.1 isteği: GetScore
+POST {{svc}}/CreditScoringService.svc
+Content-Type: text/xml; charset=utf-8
+SOAPAction: "http://bank.example.com/credit/2026/01/ICreditScoringService/GetScore"
+
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+  <s:Body>
+    <GetScore xmlns="http://bank.example.com/credit/2026/01">
+      <request>
+        <NationalId>12345678901</NationalId>
+        <MonthlyIncome>45000</MonthlyIncome>
+      </request>
+    </GetScore>
+  </s:Body>
+</s:Envelope>
+
+### Ham SOAP: GetCustomer
+POST {{svc}}/CustomerService.svc
+Content-Type: text/xml; charset=utf-8
+SOAPAction: "http://bank.example.com/customer/2026/01/ICustomerService/GetCustomer"
+
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+  <s:Body>
+    <GetCustomer xmlns="http://bank.example.com/customer/2026/01">
+      <request>
+        <CustomerId>aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa</CustomerId>
+      </request>
+    </GetCustomer>
+  </s:Body>
+</s:Envelope>
+
+### SOAP Fault örneği: geçersiz TC kimlik no → HTTP 500 + <s:Fault><detail><ServiceFault>
+POST {{svc}}/CreditScoringService.svc
+Content-Type: text/xml; charset=utf-8
+SOAPAction: "http://bank.example.com/credit/2026/01/ICreditScoringService/GetScore"
+
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+  <s:Body>
+    <GetScore xmlns="http://bank.example.com/credit/2026/01">
+      <request><NationalId>123</NationalId><MonthlyIncome>45000</MonthlyIncome></request>
+    </GetScore>
+  </s:Body>
+</s:Envelope>

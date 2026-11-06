@@ -1,0 +1,17 @@
+# Sadece altyapı (RabbitMQ). Servisleri lokalde `dotnet run` ile çalıştırma senaryosu için:
+#   docker compose -f docker-compose.infra.yml up -d
+# Yönetim paneli: http://localhost:15672  (guest / guest)
+name: microservices-infra
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: microservices-rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 20

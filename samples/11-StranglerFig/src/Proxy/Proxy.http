@@ -1,0 +1,45 @@
+# İstemcilerin bildiği TEK adres: proxy. Yanıt başlığındaki X-Served-By hangi sistemin cevap verdiğini gösterir.
+@proxy = http://localhost:5200
+@orderId = 00000000-0000-0000-0000-000000000000
+
+### Proxy'nin anlık route tablosu (flag durumu)
+GET {{proxy}}/_strangler
+
+### Taşınmamış özellik → legacy (X-Served-By: legacy)
+GET {{proxy}}/api/products
+
+### Taşınmamış özellik → legacy
+GET {{proxy}}/api/customers
+
+### Taşınmış özellik (OrdersMigrated=true) → modern (X-Served-By: modern)
+GET {{proxy}}/api/orders
+
+### Sipariş oluştur (modern sözleşme)
+POST {{proxy}}/api/orders
+Content-Type: application/json
+
+{
+  "customerId": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+  "items": [
+    { "productId": "11111111-1111-1111-1111-111111111111", "quantity": 2 },
+    { "productId": "33333333-3333-3333-3333-333333333333", "quantity": 1 }
+  ]
+}
+
+### Sipariş getir
+GET {{proxy}}/api/orders/{{orderId}}
+
+### Kargola
+POST {{proxy}}/api/orders/{{orderId}}/ship
+
+### İptal (kargolanmışsa 409)
+POST {{proxy}}/api/orders/{{orderId}}/cancel
+
+### Pasif ürün (legacy STAT_CD=P) → ACL "satılamaz" der → 400
+POST {{proxy}}/api/orders
+Content-Type: application/json
+
+{
+  "customerId": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+  "items": [ { "productId": "44444444-4444-4444-4444-444444444444", "quantity": 1 } ]
+}

@@ -1,0 +1,44 @@
+@orc = http://localhost:5401
+@applicationId = 00000000-0000-0000-0000-000000000000
+
+### Düşük risk → Approved
+POST {{orc}}/loan-applications
+Content-Type: application/json
+
+{ "customerId": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa", "amount": 120000, "termMonths": 12 }
+
+### Orta risk, yüksek taksit → Rejected
+POST {{orc}}/loan-applications
+Content-Type: application/json
+
+{ "customerId": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb", "amount": 120000, "termMonths": 12 }
+
+### Orta risk, makul taksit → Approved
+POST {{orc}}/loan-applications
+Content-Type: application/json
+
+{ "customerId": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb", "amount": 36000, "termMonths": 12 }
+
+### Yüksek risk → Rejected
+POST {{orc}}/loan-applications
+Content-Type: application/json
+
+{ "customerId": "cccccccc-cccc-cccc-cccc-cccccccccccc", "amount": 10000, "termMonths": 12 }
+
+### Bilinmeyen müşteri → SOAP Fault (CUSTOMER_NOT_FOUND) → 404 ProblemDetails
+POST {{orc}}/loan-applications
+Content-Type: application/json
+
+{ "customerId": "dddddddd-dddd-dddd-dddd-dddddddddddd", "amount": 10000, "termMonths": 12 }
+
+### Doğrulama hatası → 400
+POST {{orc}}/loan-applications
+Content-Type: application/json
+
+{ "customerId": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa", "amount": 0, "termMonths": 0 }
+
+###
+GET {{orc}}/loan-applications
+
+###
+GET {{orc}}/loan-applications/{{applicationId}}

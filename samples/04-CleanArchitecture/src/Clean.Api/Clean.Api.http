@@ -1,0 +1,64 @@
+@baseUrl = http://localhost:5004
+@customerId = aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa
+# POST /orders yanıtındaki id'yi buraya yapıştırın:
+@orderId = 00000000-0000-0000-0000-000000000000
+
+### Ürünleri listele (seed: Klavye, Mouse, Monitör)
+GET {{baseUrl}}/products
+
+### Sipariş ver → 201 + { "id": "..." }  (OrderPlaced event'i stokları düşer)
+POST {{baseUrl}}/orders
+Content-Type: application/json
+
+{
+  "customerId": "{{customerId}}",
+  "items": [
+    { "productId": "11111111-1111-1111-1111-111111111111", "quantity": 2 },
+    { "productId": "22222222-2222-2222-2222-222222222222", "quantity": 1 }
+  ]
+}
+
+### Siparişleri listele
+GET {{baseUrl}}/orders
+
+### Siparişi getir → 200 / 404
+GET {{baseUrl}}/orders/{{orderId}}
+
+### Kargola → 204 (gövde opsiyonel)
+POST {{baseUrl}}/orders/{{orderId}}/ship
+Content-Type: application/json
+
+{ "trackingNumber": "TRK-123456" }
+
+### İptal et → 204, kargolanmışsa 409 (DomainException)
+POST {{baseUrl}}/orders/{{orderId}}/cancel
+Content-Type: application/json
+
+{ "reason": "Müşteri vazgeçti" }
+
+### Doğrulama hatası → 400 (ValidationBehaviour)
+POST {{baseUrl}}/orders
+Content-Type: application/json
+
+{ "customerId": "00000000-0000-0000-0000-000000000000", "items": [] }
+
+### Bilinmeyen ürün → 404
+POST {{baseUrl}}/orders
+Content-Type: application/json
+
+{
+  "customerId": "{{customerId}}",
+  "items": [ { "productId": "99999999-9999-9999-9999-999999999999", "quantity": 1 } ]
+}
+
+### Yetersiz stok → 409 (Product.DecreaseStock, OrderPlacedHandler içinde)
+POST {{baseUrl}}/orders
+Content-Type: application/json
+
+{
+  "customerId": "{{customerId}}",
+  "items": [ { "productId": "33333333-3333-3333-3333-333333333333", "quantity": 999 } ]
+}
+
+### Olmayan sipariş → 404
+GET {{baseUrl}}/orders/99999999-9999-9999-9999-999999999999

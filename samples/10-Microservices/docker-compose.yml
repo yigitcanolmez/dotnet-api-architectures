@@ -1,0 +1,91 @@
+# Tüm sistem: RabbitMQ + 4 servis.  Çalıştır: docker compose up --build
+# Servisler birbirine compose servis adlarıyla (rabbitmq, ordering, inventory, payment) bağlanır;
+# appsettings.json'daki localhost adresleri environment değişkenleriyle ezilir (Section__Key formatı).
+name: microservices
+
+x-build: &build
+  context: .
+  additional_contexts:
+    samplesroot: ..          # samples/Directory.Build.props (ortak net10.0 ayarları) için
+
+x-rabbit-env: &rabbit-env
+  RabbitMq__Host: rabbitmq
+  RabbitMq__Username: guest
+  RabbitMq__Password: guest
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  ordering:
+    build:
+      <<: *build
+      dockerfile: src/Services/Ordering/Ordering.Api/Dockerfile
+    environment:
+      <<: *rabbit-env
+      ConnectionStrings__Ordering: Data Source=/app/data/ordering.db
+    volumes:
+      - ordering-data:/app/data      # her servisin KENDİ verisi (database-per-service)
+    ports:
+      - "5101:5101"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  inventory:
+    build:
+      <<: *build
+      dockerfile: src/Services/Inventory/Inventory.Api/Dockerfile
+    environment:
+      <<: *rabbit-env
+      ConnectionStrings__Inventory: Data Source=/app/data/inventory.db
+    volumes:
+      - inventory-data:/app/data
+    ports:
+      - "5102:5102"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  payment:
+    build:
+      <<: *build
+      dockerfile: src/Services/Payment/Payment.Api/Dockerfile
+    environment:
+      <<: *rabbit-env
+      ConnectionStrings__Payment: Data Source=/app/data/payment.db
+    volumes:
+      - payment-data:/app/data
+    ports:
+      - "5103:5103"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  gateway:
+    build:
+      <<: *build
+      dockerfile: src/Gateway/Gateway.Api/Dockerfile
+    environment:
+      ReverseProxy__Clusters__ordering__Destinations__d1__Address: http://ordering:5101
+      ReverseProxy__Clusters__inventory__Destinations__d1__Address: http://inventory:5102
+      ReverseProxy__Clusters__payment__Destinations__d1__Address: http://payment:5103
+    ports:
+      - "5100:5100"
+    depends_on:
+      - ordering
+      - inventory
+      - payment
+
+volumes:
+  ordering-data:
+  inventory-data:
+  payment-data:

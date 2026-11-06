@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- [Domain Katmanı] Bilinçli olarak HİÇBİR NuGet paketi ve proje referansı yok (Dependency Rule'un merkezi). -->
+
+</Project>

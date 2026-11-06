@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- [Driven (Secondary) Adapter] IOrderRepository + IProductCatalog → EF Core / SQLite. -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.14" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Hexagonal.Core\Hexagonal.Core.csproj" />
+  </ItemGroup>
+
+</Project>

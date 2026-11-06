@@ -1,0 +1,6 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Soa.CreditScoringService/Soa.CreditScoringService.csproj" />
+    <Project Path="src/Soa.LoanOrchestrator.Api/Soa.LoanOrchestrator.Api.csproj" />
+  </Folder>
+</Solution>

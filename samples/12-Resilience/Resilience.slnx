@@ -1,0 +1,6 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/ResilienceClient.Api/ResilienceClient.Api.csproj" />
+    <Project Path="src/UnstableService.Api/UnstableService.Api.csproj" />
+  </Folder>
+</Solution>

@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.14" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Shared\ModularMonolith.Shared.Infrastructure\ModularMonolith.Shared.Infrastructure.csproj" />
+    <ProjectReference Include="..\ModularMonolith.Modules.Shipping.Contracts\ModularMonolith.Modules.Shipping.Contracts.csproj" />
+    <!-- Shipping, Ordering event'lerini dinler: sadece CONTRACTS. -->
+    <ProjectReference Include="..\..\Ordering\ModularMonolith.Modules.Ordering.Contracts\ModularMonolith.Modules.Ordering.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,50 @@
+@Gateway = http://localhost:5100
+@orderId = 00000000-0000-0000-0000-000000000000
+
+### Ürünler (→ Inventory /products)
+GET {{Gateway}}/api/products
+
+### Sipariş ver: 1 klavye → Confirmed (→ Ordering /orders)
+POST {{Gateway}}/api/orders
+Content-Type: application/json
+
+{ "customerId": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa", "items": [ { "productId": "11111111-1111-1111-1111-111111111111", "quantity": 1 } ] }
+
+### Sipariş ver: 2 monitör (13000) → ödeme reddi → Rejected + stok Released (compensation)
+POST {{Gateway}}/api/orders
+Content-Type: application/json
+
+{ "customerId": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa", "items": [ { "productId": "33333333-3333-3333-3333-333333333333", "quantity": 2 } ] }
+
+### Sipariş ver: 100 klavye → stok yok → Rejected
+POST {{Gateway}}/api/orders
+Content-Type: application/json
+
+{ "customerId": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa", "items": [ { "productId": "11111111-1111-1111-1111-111111111111", "quantity": 100 } ] }
+
+### Siparişler
+GET {{Gateway}}/api/orders
+
+### Sipariş
+GET {{Gateway}}/api/orders/{{orderId}}
+
+### Saga durumu
+GET {{Gateway}}/api/orders/{{orderId}}/saga
+
+### Kargola / iptal et
+POST {{Gateway}}/api/orders/{{orderId}}/ship
+
+###
+POST {{Gateway}}/api/orders/{{orderId}}/cancel
+
+### Rezervasyonlar (→ Inventory)
+GET {{Gateway}}/api/reservations?orderId={{orderId}}
+
+### Ödemeler (→ Payment)
+GET {{Gateway}}/api/payments?orderId={{orderId}}
+
+### API Composition: Ordering + Payment + Inventory paralel çağrılır, tek yanıt döner
+GET {{Gateway}}/api/order-details/{{orderId}}
+
+### Gateway sağlık
+GET {{Gateway}}/health

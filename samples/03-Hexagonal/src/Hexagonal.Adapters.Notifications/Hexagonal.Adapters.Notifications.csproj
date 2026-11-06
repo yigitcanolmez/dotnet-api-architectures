@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- [Driven (Secondary) Adapter] INotifier → ILogger (konsol). -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.14" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Hexagonal.Core\Hexagonal.Core.csproj" />
+  </ItemGroup>
+
+</Project>

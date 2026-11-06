@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Modülün DIŞ DÜNYAYA açık yüzü: sadece Shared.Abstractions'a bağlı. -->
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Shared\ModularMonolith.Shared.Abstractions\ModularMonolith.Shared.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>

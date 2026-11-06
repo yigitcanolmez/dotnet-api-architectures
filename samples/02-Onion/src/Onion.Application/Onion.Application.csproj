@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- [Application Services halkası] Sadece Domain'e bağımlı. EF Core, ASP.NET yok. -->
+  <ItemGroup>
+    <ProjectReference Include="..\Onion.Domain\Onion.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- [Business Katmanı] DİKKAT: İş katmanı veri erişim katmanına bağımlı (Business → DataAccess).
+       Katmanlı mimarinin temel sorunu tam olarak bu satır. -->
+  <ItemGroup>
+    <ProjectReference Include="..\Layered.DataAccess\Layered.DataAccess.csproj" />
+  </ItemGroup>
+
+</Project>

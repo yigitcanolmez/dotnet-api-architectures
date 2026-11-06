@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Legacy.Api/Legacy.Api.csproj" />
+    <Project Path="src/Modern.Api/Modern.Api.csproj" />
+    <Project Path="src/Proxy/Proxy.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Modern.Api.Tests/Modern.Api.Tests.csproj" />
+  </Folder>
+</Solution>

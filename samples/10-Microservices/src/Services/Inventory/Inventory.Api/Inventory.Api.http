@@ -1,0 +1,17 @@
+@Inventory_HostAddress = http://localhost:5102
+@orderId = 00000000-0000-0000-0000-000000000000
+
+### Ürünler + stok (AvailableStock / ReservedStock)
+GET {{Inventory_HostAddress}}/products
+
+### Tek ürün
+GET {{Inventory_HostAddress}}/products/11111111-1111-1111-1111-111111111111
+
+### Tüm rezervasyonlar (Reserved / Released / Rejected)
+GET {{Inventory_HostAddress}}/reservations
+
+### Bir siparişin rezervasyonu
+GET {{Inventory_HostAddress}}/reservations?orderId={{orderId}}
+
+### Sağlık
+GET {{Inventory_HostAddress}}/health

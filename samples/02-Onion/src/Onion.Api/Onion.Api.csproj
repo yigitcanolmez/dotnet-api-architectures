@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!-- [UI — en dış halka + Composition Root] Infrastructure referansı SADECE DI kayıtları için. -->
+  <ItemGroup>
+    <ProjectReference Include="..\Onion.Application\Onion.Application.csproj" />
+    <ProjectReference Include="..\Onion.Infrastructure\Onion.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

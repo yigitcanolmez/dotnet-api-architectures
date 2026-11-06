@@ -1,0 +1,41 @@
+@svc = http://localhost:5301
+@productId = 11111111-1111-1111-1111-111111111111
+
+### Fiyat (chaos ayarlarına göre 200 / 500 / 503 / gecikmeli)
+GET {{svc}}/prices/{{productId}}
+
+### Bilinmeyen ürün → 404
+GET {{svc}}/prices/99999999-9999-9999-9999-999999999999
+
+### Mevcut chaos ayarları
+GET {{svc}}/chaos
+
+### Sağlıklı
+POST {{svc}}/chaos
+Content-Type: application/json
+
+{ "mode": "healthy" }
+
+### %50 rastgele 500
+POST {{svc}}/chaos
+Content-Type: application/json
+
+{ "mode": "flaky", "failureRate": 0.5 }
+
+### Tamamen kapalı (503)
+POST {{svc}}/chaos
+Content-Type: application/json
+
+{ "mode": "down" }
+
+### Yavaş: isteklerin %50'si 2000 ms gecikir
+POST {{svc}}/chaos
+Content-Type: application/json
+
+{ "mode": "slow", "latencyMs": 2000, "latencyRate": 0.5 }
+
+### Kaç istek geldi? (retry/hedging ek yükü burada görünür)
+GET {{svc}}/stats
+
+### Sayaçları sıfırla
+POST {{svc}}/stats/reset

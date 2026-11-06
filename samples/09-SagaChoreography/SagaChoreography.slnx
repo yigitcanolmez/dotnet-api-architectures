@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/SagaChoreography.Api/SagaChoreography.Api.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/SagaChoreography.Tests/SagaChoreography.Tests.csproj" />
+  </Folder>
+</Solution>

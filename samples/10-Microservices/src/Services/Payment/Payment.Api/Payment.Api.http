@@ -1,0 +1,11 @@
+@Payment_HostAddress = http://localhost:5103
+@orderId = 00000000-0000-0000-0000-000000000000
+
+### Tüm ödemeler (Completed / Failed)
+GET {{Payment_HostAddress}}/payments
+
+### Bir siparişin ödemesi
+GET {{Payment_HostAddress}}/payments?orderId={{orderId}}
+
+### Sağlık
+GET {{Payment_HostAddress}}/health

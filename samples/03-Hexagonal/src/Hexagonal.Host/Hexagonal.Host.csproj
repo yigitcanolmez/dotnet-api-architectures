@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!-- [Host / Wiring] Altıgenin dışında; tüm adapter'ları port'lara bağlayan tek yer. -->
+  <ItemGroup>
+    <ProjectReference Include="..\Hexagonal.Core\Hexagonal.Core.csproj" />
+    <ProjectReference Include="..\Hexagonal.Adapters.Web\Hexagonal.Adapters.Web.csproj" />
+    <ProjectReference Include="..\Hexagonal.Adapters.Messaging\Hexagonal.Adapters.Messaging.csproj" />
+    <ProjectReference Include="..\Hexagonal.Adapters.Persistence\Hexagonal.Adapters.Persistence.csproj" />
+    <ProjectReference Include="..\Hexagonal.Adapters.Payments\Hexagonal.Adapters.Payments.csproj" />
+    <ProjectReference Include="..\Hexagonal.Adapters.Notifications\Hexagonal.Adapters.Notifications.csproj" />
+  </ItemGroup>
+
+</Project>

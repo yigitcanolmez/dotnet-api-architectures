@@ -1,0 +1,30 @@
+# Legacy sistemi DOĞRUDAN çağırma (normalde istemciler proxy'yi kullanır).
+@legacy = http://localhost:5201
+@ordNo = 00000000-0000-0000-0000-000000000000
+
+###
+GET {{legacy}}/api/products
+
+###
+GET {{legacy}}/api/customers
+
+###
+GET {{legacy}}/api/orders
+
+###
+GET {{legacy}}/api/orders/{{ordNo}}
+
+### Legacy sözleşmesi: büyük harf, kısaltma alan adları
+POST {{legacy}}/api/orders
+Content-Type: application/json
+
+{
+  "CUST_ID": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+  "KALEMLER": [ { "PRD_ID": "11111111-1111-1111-1111-111111111111", "ADET": 2 } ]
+}
+
+###
+POST {{legacy}}/api/orders/{{ordNo}}/ship
+
+###
+POST {{legacy}}/api/orders/{{ordNo}}/cancel

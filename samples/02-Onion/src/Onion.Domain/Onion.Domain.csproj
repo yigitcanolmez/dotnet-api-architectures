@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- [Domain — soğanın merkezi] HİÇBİR ProjectReference ve PackageReference YOK. Saf C#. -->
+
+</Project>

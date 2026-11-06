@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Layered.Api/Layered.Api.csproj" />
+    <Project Path="src/Layered.Business/Layered.Business.csproj" />
+    <Project Path="src/Layered.DataAccess/Layered.DataAccess.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Layered.Tests/Layered.Tests.csproj" />
+  </Folder>
+</Solution>

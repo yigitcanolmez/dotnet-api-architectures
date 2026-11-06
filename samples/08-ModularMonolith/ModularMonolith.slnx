@@ -1,0 +1,27 @@
+<Solution>
+  <Folder Name="/src/" />
+  <Folder Name="/src/Bootstrapper/">
+    <Project Path="src/Bootstrapper/ModularMonolith.Api/ModularMonolith.Api.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/" />
+  <Folder Name="/src/Modules/Catalog/">
+    <Project Path="src/Modules/Catalog/ModularMonolith.Modules.Catalog.Contracts/ModularMonolith.Modules.Catalog.Contracts.csproj" />
+    <Project Path="src/Modules/Catalog/ModularMonolith.Modules.Catalog/ModularMonolith.Modules.Catalog.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Ordering/">
+    <Project Path="src/Modules/Ordering/ModularMonolith.Modules.Ordering.Contracts/ModularMonolith.Modules.Ordering.Contracts.csproj" />
+    <Project Path="src/Modules/Ordering/ModularMonolith.Modules.Ordering/ModularMonolith.Modules.Ordering.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Shipping/">
+    <Project Path="src/Modules/Shipping/ModularMonolith.Modules.Shipping.Contracts/ModularMonolith.Modules.Shipping.Contracts.csproj" />
+    <Project Path="src/Modules/Shipping/ModularMonolith.Modules.Shipping/ModularMonolith.Modules.Shipping.csproj" />
+  </Folder>
+  <Folder Name="/src/Shared/">
+    <Project Path="src/Shared/ModularMonolith.Shared.Abstractions/ModularMonolith.Shared.Abstractions.csproj" />
+    <Project Path="src/Shared/ModularMonolith.Shared.Infrastructure/ModularMonolith.Shared.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/ModularMonolith.ArchitectureTests/ModularMonolith.ArchitectureTests.csproj" />
+    <Project Path="tests/ModularMonolith.IntegrationTests/ModularMonolith.IntegrationTests.csproj" />
+  </Folder>
+</Solution>

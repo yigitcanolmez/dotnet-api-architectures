@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- [Application Core — altıgenin içi] Domain + Port'lar + Use case'ler.
+       Hiçbir adapter'a, framework'e veya NuGet paketine referans YOK. -->
+
+</Project>

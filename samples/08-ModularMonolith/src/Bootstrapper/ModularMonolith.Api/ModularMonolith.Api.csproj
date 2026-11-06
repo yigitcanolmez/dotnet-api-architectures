@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!-- [Bootstrapper] Tüm modülleri tek process'te ayağa kaldıran host. Modül implementasyonlarını
+       SADECE burası (ve testler) referans eder. -->
+  <ItemGroup>
+    <ProjectReference Include="..\..\Modules\Catalog\ModularMonolith.Modules.Catalog\ModularMonolith.Modules.Catalog.csproj" />
+    <ProjectReference Include="..\..\Modules\Ordering\ModularMonolith.Modules.Ordering\ModularMonolith.Modules.Ordering.csproj" />
+    <ProjectReference Include="..\..\Modules\Shipping\ModularMonolith.Modules.Shipping\ModularMonolith.Modules.Shipping.csproj" />
+  </ItemGroup>
+
+</Project>

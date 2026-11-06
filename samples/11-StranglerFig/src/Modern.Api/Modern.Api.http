@@ -1,0 +1,27 @@
+# Modern sistemi DOĞRUDAN çağırma (normalde proxy üzerinden gelir).
+@modern = http://localhost:5202
+@orderId = 00000000-0000-0000-0000-000000000000
+
+### ACL çıktısı: legacy /api/products → domain Product/Money
+GET {{modern}}/acl/products
+
+###
+GET {{modern}}/api/orders
+
+###
+POST {{modern}}/api/orders
+Content-Type: application/json
+
+{
+  "customerId": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+  "items": [ { "productId": "22222222-2222-2222-2222-222222222222", "quantity": 1 } ]
+}
+
+###
+GET {{modern}}/api/orders/{{orderId}}
+
+###
+POST {{modern}}/api/orders/{{orderId}}/ship
+
+###
+POST {{modern}}/api/orders/{{orderId}}/cancel

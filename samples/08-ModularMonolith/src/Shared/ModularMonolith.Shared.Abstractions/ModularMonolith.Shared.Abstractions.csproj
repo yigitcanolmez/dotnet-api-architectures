@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Saf sözleşmeler: hiçbir pakete/projeye bağımlı değil. -->
+
+</Project>

@@ -1,0 +1,44 @@
+@Ordering_HostAddress = http://localhost:5101
+@orderId = 00000000-0000-0000-0000-000000000000
+
+### Mutlu yol: 1 klavye (750) → birkaç saniye içinde Confirmed
+POST {{Ordering_HostAddress}}/orders
+Content-Type: application/json
+
+{ "customerId": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa", "items": [ { "productId": "11111111-1111-1111-1111-111111111111", "quantity": 1 } ] }
+
+### Ödeme reddi + compensation: 2 monitör (13000 > 10000) → Rejected, stok geri bırakılır
+POST {{Ordering_HostAddress}}/orders
+Content-Type: application/json
+
+{ "customerId": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa", "items": [ { "productId": "33333333-3333-3333-3333-333333333333", "quantity": 2 } ] }
+
+### Stok yetersiz: 100 klavye → Rejected
+POST {{Ordering_HostAddress}}/orders
+Content-Type: application/json
+
+{ "customerId": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa", "items": [ { "productId": "11111111-1111-1111-1111-111111111111", "quantity": 100 } ] }
+
+### Bilinmeyen ürün → 400
+POST {{Ordering_HostAddress}}/orders
+Content-Type: application/json
+
+{ "customerId": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa", "items": [ { "productId": "99999999-9999-9999-9999-999999999999", "quantity": 1 } ] }
+
+### Liste
+GET {{Ordering_HostAddress}}/orders
+
+### Tek sipariş
+GET {{Ordering_HostAddress}}/orders/{{orderId}}
+
+### Saga durumu (AwaitingStock / AwaitingPayment / Completed / Failed)
+GET {{Ordering_HostAddress}}/orders/{{orderId}}/saga
+
+### Kargola (sadece Confirmed)
+POST {{Ordering_HostAddress}}/orders/{{orderId}}/ship
+
+### İptal (Shipped ise 409; Confirmed ise 204 + OrderCancelled → Inventory stoğu iade eder)
+POST {{Ordering_HostAddress}}/orders/{{orderId}}/cancel
+
+### Sağlık
+GET {{Ordering_HostAddress}}/health

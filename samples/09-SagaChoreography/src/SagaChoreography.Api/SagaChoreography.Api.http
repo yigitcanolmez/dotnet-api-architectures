@@ -1,0 +1,90 @@
+@host = http://localhost:5009
+@keyboard = 11111111-1111-1111-1111-111111111111
+@mouse = 22222222-2222-2222-2222-222222222222
+@monitor = 33333333-3333-3333-3333-333333333333
+@customer = aaaaaaaa-0000-0000-0000-000000000001
+
+### [Ordering] Ordering'in kendi ürün/fiyat kopyası
+GET {{host}}/products
+
+### [Inventory] Stoklar + rezervasyonlar
+GET {{host}}/inventory
+
+### [Payment] Ödemeler
+GET {{host}}/payments
+
+### (a) MUTLU YOL — 1 klavye (750 TRY) → Confirmed
+# @name happy
+POST {{host}}/orders
+Content-Type: application/json
+
+{ "customerId": "{{customer}}", "items": [ { "productId": "{{keyboard}}", "quantity": 1 } ] }
+
+###
+@happyId = {{happy.response.body.$.id}}
+
+### (a) ~1 sn sonra: "status": "Confirmed"
+GET {{host}}/orders/{{happyId}}
+
+### (b) COMPENSATION — 2 monitör (13.000 TRY > 10.000 limit) → PaymentFailed → stok iade → Rejected
+# @name compensation
+POST {{host}}/orders
+Content-Type: application/json
+
+{ "customerId": "{{customer}}", "items": [ { "productId": "{{monitor}}", "quantity": 2 } ] }
+
+###
+@compensationId = {{compensation.response.body.$.id}}
+
+### (b) "status": "Rejected", "statusReason": "Limit aşıldı..."
+GET {{host}}/orders/{{compensationId}}
+
+### (b) Monitör stoğu tekrar 5, rezervasyon "Released"
+GET {{host}}/inventory
+
+### (c) STOK YOK — 50 klavye → StockReservationFailed → Rejected (ödeme hiç denenmez)
+# @name outOfStock
+POST {{host}}/orders
+Content-Type: application/json
+
+{ "customerId": "{{customer}}", "items": [ { "productId": "{{keyboard}}", "quantity": 50 } ] }
+
+###
+@outOfStockId = {{outOfStock.response.body.$.id}}
+
+### (c) "status": "Rejected", "statusReason": "'Klavye' için yeterli stok yok."
+GET {{host}}/orders/{{outOfStockId}}
+
+### Tüm siparişler
+GET {{host}}/orders
+
+### Onaylı siparişi kargola → 204
+POST {{host}}/orders/{{happyId}}/ship
+
+### Kargolanmış siparişi iptal etmeyi dene → 409
+POST {{host}}/orders/{{happyId}}/cancel
+
+### Yeni sipariş (iptal senaryosu)
+# @name toCancel
+POST {{host}}/orders
+Content-Type: application/json
+
+{ "customerId": "{{customer}}", "items": [ { "productId": "{{mouse}}", "quantity": 2 } ] }
+
+###
+@toCancelId = {{toCancel.response.body.$.id}}
+
+### Confirmed olduktan sonra iptal → 204 (OrderCancelled → stok iadesi + ödeme iadesi)
+POST {{host}}/orders/{{toCancelId}}/cancel
+
+### Ödeme "Refunded" olmalı
+GET {{host}}/payments
+
+### Bilinmeyen ürün → 400
+POST {{host}}/orders
+Content-Type: application/json
+
+{ "customerId": "{{customer}}", "items": [ { "productId": "99999999-9999-9999-9999-999999999999", "quantity": 1 } ] }
+
+### Olmayan sipariş → 404
+GET {{host}}/orders/00000000-0000-0000-0000-000000000000
